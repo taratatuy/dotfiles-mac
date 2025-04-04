@@ -5,6 +5,7 @@ brew install --cask wezterm
 brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide imagemagick font-symbols-only-nerd-font
 brew install stow
 brew install git
+brew install neovim make unzip gcc ripgrep
 
 # wezterm
 tempfile=$(mktemp) \
