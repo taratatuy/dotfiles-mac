@@ -4,6 +4,26 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Execute tmux binding",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "q",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "b",
+                                        "modifiers": ["fn"]
+                                    },
+                                    { "key_code": "a" },
+                                    { "key_code": "1" }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "manipulators": [
                             {
                                 "description": "Change caps_lock to command+control+option+shift.",
