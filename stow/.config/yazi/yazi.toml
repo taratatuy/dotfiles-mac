@@ -1,2 +1,10 @@
 [manager]
 show_hidden = true
+
+[opener]
+play = [
+  { run = 'open -b com.apple.QuickTimePlayerX "$@"', orphan = true, for = "macos" },
+]
+edit = [
+  { run = '$EDITOR "$@"', block = true, for = "macos" },
+]

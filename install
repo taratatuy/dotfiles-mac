@@ -2,6 +2,7 @@ brew install --cask wezterm
 brew install --cask google-chrome
 brew install --cask karabiner-elements
 brew install --cask visual-studio-code
+brew install --cask alt-tab
 
 brew install git
 brew install nvm
