@@ -108,6 +108,7 @@ fi
 
 export XDG_CONFIG_HOME=~/.config
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-21.jdk/Contents/Home
+export PATH="$HOME/.scripts/:$PATH"
 
 alias n="nvim"
 alias no="nvim ~/Documents/notes/notes.txt"
