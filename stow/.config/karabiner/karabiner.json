@@ -1,10 +1,29 @@
 {
+    "global": { "show_in_menu_bar": false },
     "profiles": [
         {
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Execute tmux binding",
+                        "description": "language toggle",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": { "mandatory": ["left_shift"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": ["left_control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Execute tmux bindings",
                         "manipulators": [
                             {
                                 "from": {
@@ -33,6 +52,21 @@
                                     },
                                     { "key_code": "a" },
                                     { "key_code": "2" }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "3",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "b",
+                                        "modifiers": ["fn"]
+                                    },
+                                    { "key_code": "a" },
+                                    { "key_code": "3" }
                                 ],
                                 "type": "basic"
                             }

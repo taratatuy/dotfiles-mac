@@ -107,6 +107,7 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export XDG_CONFIG_HOME=~/.config
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-21.jdk/Contents/Home
 
 alias n="nvim"
 alias no="nvim ~/Documents/notes/notes.txt"
@@ -127,6 +128,4 @@ function y() {
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 

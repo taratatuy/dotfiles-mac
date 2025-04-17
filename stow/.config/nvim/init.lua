@@ -433,6 +433,51 @@ require("lazy").setup({
 		end,
 	},
 
+	{
+		"folke/snacks.nvim",
+		lazy = false,
+		---@type snacks.Config
+		opts = {
+			explorer = {},
+			lazygit = {},
+			scroll = {
+				enabled = true,
+				animate = {
+					duration = { step = 15, total = 100 },
+					easing = "linear",
+				},
+				-- faster animation when repeating scroll after delay
+				animate_repeat = {
+					delay = 100, -- delay in ms before using the repeat animation
+					duration = { step = 5, total = 50 },
+					easing = "linear",
+				},
+				-- what buffers to animate
+				filter = function(buf)
+					return vim.g.snacks_scroll ~= false
+						and vim.b[buf].snacks_scroll ~= false
+						and vim.bo[buf].buftype ~= "terminal"
+				end,
+			},
+		},
+		keys = {
+			{
+				"<leader>e",
+				function()
+					Snacks.explorer.open()
+				end,
+				desc = "File [E]xplorer",
+			},
+			{
+				"<leader>g",
+				function()
+					Snacks.lazygit.open()
+				end,
+				desc = "Lazy [G]it",
+			},
+		},
+	},
+
 	-- LSP Plugins
 	{
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -769,7 +814,7 @@ require("lazy").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- You can use 'stop_after_first' to run the first available formatter from the list
-				javascript = { "prettierd", "prettier", stop_after_first = true },
+				javascript = { "prettier", "prettierd", stop_after_first = true },
 				-- Conform can also run multiple formatters sequentially
 				-- python = { "isort", "black" },
 				--
@@ -893,6 +938,42 @@ require("lazy").setup({
 				},
 			})
 		end,
+	},
+
+	{
+		"kevinhwang91/nvim-ufo",
+		dependencies = { "kevinhwang91/promise-async" },
+		lazy = false,
+		config = function()
+			vim.o.foldcolumn = "1" -- '0' is not bad
+			vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+			vim.o.foldlevelstart = 99
+			vim.o.foldenable = true
+
+			require("ufo").setup({
+				provider_selector = function(bufnr, filetype, buftype)
+					return { "treesitter", "indent" }
+				end,
+			})
+		end,
+		keys = {
+			{
+				"zR",
+				function()
+					require("ufo").openAllFolds()
+				end,
+				mode = "n",
+				desc = "Open All Folds",
+			},
+			{
+				"zM",
+				function()
+					require("ufo").closeAllFolds()
+				end,
+				mode = "n",
+				desc = "Close All Folds",
+			},
+		},
 	},
 
 	{ -- You can easily change to a different colorscheme.
