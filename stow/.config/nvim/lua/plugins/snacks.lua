@@ -1,3 +1,19 @@
+---@class snacks.picker.explorer.Config: snacks.picker.files.Config|{}
+---@field follow_file? boolean follow the file from the current buffer
+---@field tree? boolean show the file tree (default: true)
+---@field git_status? boolean show git status (default: true)
+---@field git_status_open? boolean show recursive git status for open directories
+---@field git_untracked? boolean needed to show untracked git status
+---@field diagnostics? boolean show diagnostics
+---@field diagnostics_open? boolean show recursive diagnostics for open directories
+---@field watch? boolean watch for file changes
+---@field exclude? string[] exclude glob patterns
+---@field include? string[] include glob patterns. These take precedence over `exclude`, `ignored` and `hidden`
+local explorerConfig = {
+  hidden = true,
+  ignored = true,
+}
+
 return {
   "folke/snacks.nvim",
   lazy = false,
@@ -27,7 +43,7 @@ return {
     {
       "<leader>e",
       function()
-        Snacks.explorer.open()
+        Snacks.explorer.open(explorerConfig)
       end,
       desc = "File [E]xplorer",
     },
