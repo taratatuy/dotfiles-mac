@@ -73,6 +73,9 @@ ZSH_THEME="amuse"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+PROMPT='
+%{$fg_bold[green]%}%~%{$reset_color%}$(git_prompt_info)$(virtualenv_prompt_info) %{$fg_bold[red]%}%*%{$reset_color%}
+$ '
 
 # User configuration
 
