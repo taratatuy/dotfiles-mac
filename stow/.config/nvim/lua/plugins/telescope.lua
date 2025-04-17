@@ -54,6 +54,13 @@ return { -- Fuzzy Finder (files, lsp, etc)
       --   },
       -- },
       -- pickers = {}
+      defaults = {
+        path_display = { "truncate" },
+        layout_config = {
+          width = { padding = 0 },
+        },
+      },
+
       extensions = {
         ["ui-select"] = {
           require("telescope.themes").get_dropdown(),
