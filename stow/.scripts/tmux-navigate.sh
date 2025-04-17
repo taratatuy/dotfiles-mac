@@ -29,7 +29,7 @@ if [ $# -gt 0 ]; then
     window_command="${@:$(($i+2)):1}"
 
     if [ ! -d $window_path ]; then
-      echo "Warn: Tab skipped. Directory does not exist: $first_path"
+      echo "Warn: Tab skipped. Directory does not exist: $window_path"
       sleep 2
       break
     fi
