@@ -211,11 +211,28 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufLeave" }, {
-  command = "wa",
+vim.api.nvim_create_autocmd("BufLeave", {
+  callback = function()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_get_option(buf, "modified") and vim.api.nvim_buf_get_name(buf) ~= "" then
+        vim.api.nvim_buf_call(buf, function()
+          vim.cmd("silent update")
+        end)
+      end
+    end
+  end,
 })
-vim.api.nvim_create_autocmd({ "FocusLost" }, {
-  command = "wa",
+
+vim.api.nvim_create_autocmd("FocusLost", {
+  callback = function()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_get_option(buf, "modified") and vim.api.nvim_buf_get_name(buf) ~= "" then
+        vim.api.nvim_buf_call(buf, function()
+          vim.cmd("silent update")
+        end)
+      end
+    end
+  end,
 })
 
 require("config.lazy")
