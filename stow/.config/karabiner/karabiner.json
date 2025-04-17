@@ -8,7 +8,7 @@
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "q",
+                                    "key_code": "1",
                                     "modifiers": { "mandatory": ["left_option"] }
                                 },
                                 "to": [
@@ -18,6 +18,21 @@
                                     },
                                     { "key_code": "a" },
                                     { "key_code": "1" }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "2",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "b",
+                                        "modifiers": ["fn"]
+                                    },
+                                    { "key_code": "a" },
+                                    { "key_code": "2" }
                                 ],
                                 "type": "basic"
                             }
