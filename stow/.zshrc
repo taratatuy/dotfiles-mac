@@ -106,6 +106,9 @@ fi
 export XDG_CONFIG_HOME=~/.config
 
 alias n="nvim"
+alias no="nvim ~/Documents/notes/notes.txt"
+alias note="nvim ~/Documents/notes/notes.txt"
+alias nn="nvim ~/Documents/notes/$(date '+%Y-%m-%d').txt"
 
 # yazi
 function y() {
