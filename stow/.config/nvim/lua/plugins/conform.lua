@@ -9,7 +9,15 @@ return { -- Autoformat
         require("conform").format({ async = true, lsp_format = "fallback" })
       end,
       mode = "",
-      desc = "[F]ormat buffer",
+      desc = "[f]ormat buffer",
+    },
+    {
+      "<leader>F",
+      function()
+        vim.cmd("%!jq")
+      end,
+      mode = "",
+      desc = "[F]ormat buffer with jq",
     },
   },
   opts = {
@@ -31,8 +39,9 @@ return { -- Autoformat
     formatters_by_ft = {
       lua = { "stylua" },
       -- You can use 'stop_after_first' to run the first available formatter from the list
-      javascript = { "prettier", stop_after_first = true },
-      typescript = { "prettier", stop_after_first = true },
+      json = { "jq", stop_after_first = true },
+      javascript = { "prettierd", "prettier", stop_after_first = true },
+      typescript = { "prettierd", "prettier", stop_after_first = true },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
       --
