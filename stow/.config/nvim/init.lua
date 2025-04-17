@@ -197,6 +197,8 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 vim.keymap.set("n", "<C-e>", "10<C-e>")
 vim.keymap.set("n", "<C-y>", "10<C-y>")
 
+vim.keymap.set("n", "<leader>ah", require("utils.template-switcher").switch_ts_html, { desc = "Toggle .ts/.html" })
+
 local function escape(str)
   -- You need to escape these characters to work correctly
   local escape_chars = [[;,."|\]]
