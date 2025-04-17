@@ -111,9 +111,9 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-21.jdk/Contents/Home
 export PATH="$HOME/.scripts/:$PATH"
 
 alias n="nvim"
-alias no="nvim ~/Documents/notes/notes.txt"
-alias note="nvim ~/Documents/notes/notes.txt"
-alias nn="nvim ~/Documents/notes/$(date '+%Y-%m-%d').txt"
+alias no="nvim ~/Documents/notes/notes.md"
+alias note="nvim ~/Documents/notes/notes.md"
+alias nn="nvim ~/Documents/notes/$(date '+%Y-%m-%d').md"
 
 # yazi
 function y() {

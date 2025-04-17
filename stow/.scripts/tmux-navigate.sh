@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 if [ -z "$2" ]; then
   echo "Error: At least 2 arguments expected, but got $#" 
