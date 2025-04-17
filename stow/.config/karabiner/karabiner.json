@@ -89,14 +89,27 @@
                         ]
                     },
                     {
-                        "description": "Open google chrome",
+                        "description": "Open Google Chrome",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "a",
                                     "modifiers": { "mandatory": ["left_shift", "left_command", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "open /Applications/'Google Chrome.app'" }],
+                                "to": [{ "shell_command": "open -a 'Google Chrome'" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Open Google Chrome Dev",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "d",
+                                    "modifiers": { "mandatory": ["left_shift", "left_command", "left_control", "left_option"] }
+                                },
+                                "to": [{ "shell_command": "open -a 'Google Chrome Dev.app' --args --disable-web-security --user-data-dir=\"$HOME/Documents/chrome-dev-session\"" }],
                                 "type": "basic"
                             }
                         ]
