@@ -268,7 +268,7 @@ return {
 
     -- Make sure you have installed @angular/language-service and typescript
     -- `npm i -g @angular/language-service@17.3.3`
-    local global_node_modules_path = "$HOME/.nvm/versions/node/v18.16.0/lib/node_modules"
+    local global_node_modules_path = vim.env.HOME .. "/.nvm/versions/node/v18.16.0/lib/node_modules"
     local project_node_modules_path = get_probe_dir(vim.fn.getcwd()) or global_node_modules_path
     local angularVersion = "17.3.3"
     local cmd = {
