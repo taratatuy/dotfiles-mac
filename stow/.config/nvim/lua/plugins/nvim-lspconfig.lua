@@ -260,26 +260,24 @@ return {
       },
     })
 
-    -- To search @angular/language-service and typescript in project dir node_modules
-    -- local function get_probe_dir(root_dir)
-    --   local project_root = vim.fs.dirname(vim.fs.find("node_modules", { path = root_dir, upward = true })[1])
-    --
-    --   return project_root and (project_root .. "/node_modules") or ""
-    -- end
-    -- local node_modules_path = get_probe_dir(vim.fn.getcwd())
+    local function get_probe_dir(root_dir)
+      local project_root = vim.fs.dirname(vim.fs.find("node_modules", { path = root_dir, upward = true })[1])
 
-    -- Make sure you have installed language-service and typscript
+      return project_root and (project_root .. "/node_modules") or nil
+    end
+
+    -- Make sure you have installed @angular/language-service and typescript
     -- `npm i -g @angular/language-service@17.3.3`
-    -- `npm i -g typescript@5.2.2`
-    local node_modules_path = "$HOME/.nvm/versions/node/v18.16.0/lib/node_modules"
+    local global_node_modules_path = "$HOME/.nvm/versions/node/v18.16.0/lib/node_modules"
+    local project_node_modules_path = get_probe_dir(vim.fn.getcwd()) or global_node_modules_path
     local angularVersion = "17.3.3"
     local cmd = {
       "ngserver",
       "--stdio",
       "--tsProbeLocations",
-      node_modules_path,
+      project_node_modules_path,
       "--ngProbeLocations",
-      node_modules_path,
+      global_node_modules_path,
       "--angularCoreVersion",
       angularVersion,
     }
