@@ -196,6 +196,7 @@ return {
     local servers = {
       jdtls = {},
       -- angularls = {},
+      angularls = require("config.angularls"),
       -- clangd = {},
       -- gopls = {},
       -- pyright = {},
@@ -241,7 +242,6 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       "stylua", -- Used to format Lua code
-      "angularls",
     })
     require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -258,34 +258,6 @@ return {
           require("lspconfig")[server_name].setup(server)
         end,
       },
-    })
-
-    local function get_probe_dir(root_dir)
-      local project_root = vim.fs.dirname(vim.fs.find("node_modules", { path = root_dir, upward = true })[1])
-
-      return project_root and (project_root .. "/node_modules") or nil
-    end
-
-    -- Make sure you have installed @angular/language-service and typescript
-    -- `npm i -g @angular/language-service@17.3.3`
-    local global_node_modules_path = vim.env.HOME .. "/.nvm/versions/node/v18.16.0/lib/node_modules"
-    local project_node_modules_path = get_probe_dir(vim.fn.getcwd()) or global_node_modules_path
-    local angularVersion = "17.3.3"
-    local cmd = {
-      "ngserver",
-      "--stdio",
-      "--tsProbeLocations",
-      project_node_modules_path,
-      "--ngProbeLocations",
-      global_node_modules_path,
-      "--angularCoreVersion",
-      angularVersion,
-    }
-    require("lspconfig").angularls.setup({
-      cmd = cmd,
-      on_new_config = function(new_config, new_root_dir)
-        new_config.cmd = cmd
-      end,
     })
   end,
 }
