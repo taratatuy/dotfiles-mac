@@ -116,6 +116,8 @@ alias note="nvim ~/Documents/notes/notes.md"
 alias nn="nvim ~/Documents/notes/$(date '+%Y-%m-%d').md"
 alias lg="lazygit"
 
+eval "$(zoxide init zsh)"
+
 # yazi
 function y() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd

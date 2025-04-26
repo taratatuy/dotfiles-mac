@@ -11,6 +11,7 @@ brew install nvm
 brew install wget
 brew install htop
 brew install stow
+brew install zoxide
 brew install yazi ffmpeg sevenzip jq poppler fd ripgrep fzf zoxide imagemagick font-symbols-only-nerd-font
 brew install neovim make unzip gcc ripgrep
 
