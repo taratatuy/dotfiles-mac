@@ -1,5 +1,10 @@
 [manager]
 show_hidden = true
+linemode = "size"
+scrolloff = 10
+
+[preview]
+wrap = "yes"
 
 [opener]
 play = [

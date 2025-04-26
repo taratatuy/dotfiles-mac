@@ -1,0 +1,10 @@
+[manager]
+prepend_keymap = [
+  # Goto
+  { on = [ "g", "D" ],  run = "cd ~/Downloads",  desc = "Go ~/Downloads" },
+  { on = [ "g", "d" ],  run = "cd ~/d",  desc = "Go ~/d" },
+
+  # Operation
+  { on = "Z",  run = "plugin fzf",  desc = "Jump to a file/directory via fzf" },
+  { on = "z",  run = "plugin zoxide",  desc = "Jump to a directory via zoxide" },
+]
