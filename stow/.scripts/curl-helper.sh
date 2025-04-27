@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# The script expects execute_curl() and print_usage() to be declared first.
+# The script expects execute_curl(), autologin() and print_usage() to be declared first.
 # Example:
 #
 # request_body_required="true"
@@ -12,21 +12,65 @@ set -euo pipefail
 #   url="https://${env}.${server}"
 #
 #   curl --location "${url}" \
+#     -X "POST" \
 #     -H "Authorization: ${token}" \
 #     -d "@${body}"
 # }
+# autologin() {
+#   local env="${1}" server="${2}"
+#
+#   local username="<username>"
+#   local password="<password>"
+#   local autologin_url="https://${env}.${server}"
+#   local autologin_data="username=${username}&password=${password}&client_id=frontend&grant_type=password"
+#
+#   local autologin_response=$(curl --location-trusted "${autologin_url}" \
+#     -X "POST" \
+#     -H "content-type: application/x-www-form-urlencoded" \
+#     -H "content-length: ${#autologin_data}" \
+#     -d "${autologin_data}")
+#
+#   local autologin_token_type=$(echo "${autologin_response}" | jq -r '.token_type')
+#   local autologin_access_token=$(echo "${autologin_response}" | jq -r '.access_token')
+#   echo "${autologin_token_type} ${autologin_access_token}"
+# }
 # print_usage(){
-#   echo "Usage: ${0} [-n] mdc-01/env-1 [other_arg1 other_arg2 ...]"
+#   echo "Usage: ${0} [-n|-a] mdc-01/env-1 [other_arg1 other_arg2 ...]"
 # }
 # source ~/.scripts/curl-helper.sh $@
 
 tmp_folder="/tmp/curl"
 
+build_response_file_name() {
+  local script_file_name="${1}" tmp_folder="${2}" server="${3}" env="${4}" arguments="${5}"
+  local current_time="$(perl -MTime::HiRes -E 'say int(Time::HiRes::time() * 1000)')"
+
+  local response_file_name="${script_file_name#./}"
+  local response_file_name="${response_file_name%.curl.sh}"
+  local response_file_name="${response_file_name}.${server}_${env}.${arguments:-}.${current_time}.res.json"
+  local response_file_name="${response_file_name// /_}"
+  local response_file_name="${tmp_folder}/${response_file_name}"
+  echo "${response_file_name}"
+}
+
+build_request_body_file_name() {
+  local script_file_name="${1}" tmp_folder="${2}"
+
+  local request_body_file_name="${script_file_name#./}"
+  local request_body_file_name="${request_body_file_name%.curl.sh}"
+  local request_body_file_name="${request_body_file_name}.body.json"
+  local request_body_file_name="${request_body_file_name// /_}"
+  local request_body_file_name="${tmp_folder}/${request_body_file_name}"
+  echo "${request_body_file_name}"
+}
+
 for arg in "${@:-}"; do
-  if [ "$arg" != "-n" ]; then
-    filtered_args+=("$arg")
-  else
+  if [ "$arg" == "-n" ]; then
     set_new_token="true"
+  elif [ "$arg" == "-a" ]; then
+    autologin="true"
+  else
+    filtered_args+=("$arg")
   fi
 done
 
@@ -55,34 +99,36 @@ if [ ! -d "${tmp_folder}" ]; then
   mkdir "${tmp_folder}"
 fi
 
-if [ "${set_new_token:-}" == "true" ] && [ -f "${env_token_file}" ]; then
-  mv "${env_token_file}" "${env_token_file}.bkp"
-fi
+if [ "${autologin:-}" == "true" ]; then
+  token=$(autologin "${env}" "${server}")
 
-if [ -f "${env_token_file}" ]; then
+elif [ "${set_new_token:-}" == "true" ]; then
+  if [ -f "${env_token_file}" ]; then
+    mv "${env_token_file}" "${env_token_file}.bkp"
+  fi
+  ${EDITOR} "${env_token_file}"
+  if [ -f "${env_token_file}.bkp" ]; then
+    if [ -f "${env_token_file}" ]; then
+      rm "${env_token_file}.bkp"
+    else
+      mv "${env_token_file}.bkp" "${env_token_file}"
+    fi
+  fi
   token=$(<"${env_token_file}")
+
+elif [ -f "${env_token_file}" ]; then
+  token=$(<"${env_token_file}")
+
 else
   ${EDITOR} "${env_token_file}"
-
-  if [ ! -f "${env_token_file}" ] && [ -f "${env_token_file}.bkp" ]; then
-    mv "${env_token_file}.bkp" "${env_token_file}"
-  elif [ -f "${env_token_file}.bkp" ]; then
-    rm "${env_token_file}.bkp"
-  fi
-
   token=$(<"${env_token_file}")
 fi
 
-current_time="$(perl -MTime::HiRes -E 'say int(Time::HiRes::time() * 1000)')"
-response_file_name="${0#./}"
-response_file_name="${response_file_name%.curl.sh}"
-response_file_name="${tmp_folder}/${response_file_name}.${server}_${env}.${@:-}.${current_time}.response"
-response_file_name="${response_file_name// /_}"
+response_file_name=$(build_response_file_name "${0}" "${tmp_folder}" "${server}" "${env}" "${@:-}")
 
 if [ "${request_body_required:-}" == "true" ]; then
-  request_body_file_name="${0#./}"
-  request_body_file_name="${request_body_file_name%.curl.sh}"
-  request_body_file_name="${tmp_folder}/${request_body_file_name}.body"
+  request_body_file_name=$(build_request_body_file_name "${0}" "${tmp_folder}")
+  echo "--- Replace with request body ---" > "${request_body_file_name}"
 
   ${EDITOR} "${request_body_file_name}"
 fi
