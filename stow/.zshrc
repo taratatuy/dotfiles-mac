@@ -73,6 +73,27 @@ ZSH_THEME="amuse"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+
+bindkey -v
+
+# Initialize mode indicator
+function zle-keymap-select {
+  case $KEYMAP in
+    vicmd) MODE_INDICATOR="%{$fg_bold[red]%}[NORMAL]%{$reset_color%}";;
+    main|viins) MODE_INDICATOR="%{$fg_bold[green]%}[INSERT]%{$reset_color%}";;
+  esac
+  zle reset-prompt
+}
+
+# Also reset after pressing escape
+function zle-line-init {
+  zle-keymap-select
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+RPROMPT='${MODE_INDICATOR}'
 PROMPT='
 %{$fg_bold[green]%}%~%{$reset_color%}$(git_prompt_info)$(virtualenv_prompt_info) %{$fg_bold[red]%}%*%{$reset_color%}
 $ '
