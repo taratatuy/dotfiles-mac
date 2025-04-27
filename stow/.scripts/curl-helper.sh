@@ -4,13 +4,16 @@ set -euo pipefail
 # The script expects execute_curl() and print_usage() to be declared first.
 # Example:
 #
+# request_body_required="true"
 # execute_curl() {
-#   local env="${1}" server="${2}" token="${3}" other_arg1="${4}"
+#   local env="${1}" server="${2}" token="${3}" body="${4}"
+#   local other_arg1="${5}" other_arg2="${6}"
 #
 #   url="https://${env}.${server}"
 #
 #   curl --location "${url}" \
-#     -H "Authorization: ${token}"
+#     -H "Authorization: ${token}" \
+#     -d "@${body}"
 # }
 # print_usage(){
 #   echo "Usage: ${0} [-n] mdc-01/env-1 [other_arg1 other_arg2 ...]"
@@ -71,12 +74,20 @@ else
 fi
 
 current_time="$(perl -MTime::HiRes -E 'say int(Time::HiRes::time() * 1000)')"
-response_file_name=${0#./}
-response_file_name=${response_file_name%.curl.sh}
+response_file_name="${0#./}"
+response_file_name="${response_file_name%.curl.sh}"
 response_file_name="${tmp_folder}/${response_file_name}.${server}_${env}.${@:-}.${current_time}.response"
 response_file_name="${response_file_name// /_}"
 
-execute_curl "${env}" "${server}" "${token}" "${@:-}" > "${response_file_name}"
+if [ "${request_body_required:-}" == "true" ]; then
+  request_body_file_name="${0#./}"
+  request_body_file_name="${request_body_file_name%.curl.sh}"
+  request_body_file_name="${tmp_folder}/${request_body_file_name}.body"
+
+  ${EDITOR} "${request_body_file_name}"
+fi
+
+execute_curl "${env}" "${server}" "${token}" "${request_body_file_name:-}" "${@:-}" > "${response_file_name}"
 
 echo ""
 echo "Url: ${url}"
