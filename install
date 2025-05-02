@@ -5,6 +5,7 @@ brew install --cask visual-studio-code
 brew install --cask alt-tab
 brew install --cask telegram
 brew install --cask obsidian
+brew install --cask obs
 
 brew install git
 brew install nvm
