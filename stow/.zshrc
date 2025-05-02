@@ -135,6 +135,7 @@ alias n="nvim"
 alias no="nvim ~/Documents/notes/notes.md"
 alias note="nvim ~/Documents/notes/notes.md"
 alias nn="nvim ~/Documents/notes/$(date '+%Y-%m-%d').md"
+alias nj="nvim ~/Documents/notes/$(date '+%Y-%m-%d').json"
 alias lg="lazygit"
 
 eval "$(zoxide init zsh)"
