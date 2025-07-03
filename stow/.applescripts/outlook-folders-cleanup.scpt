@@ -2,6 +2,8 @@ set folderPaths to {¬
 	{"Inbox", "CloudBSS Deployer"}, ¬
 	{"Inbox", "Corporate Communication Group"}, ¬
 	{"Inbox", "Meetings (Accepted or Canceled)"}, ¬
+	{"Inbox", "MR comments"}, ¬
+	{"Inbox", "Other"}, ¬
 	{"Inbox", "X_GitToJira"}, ¬
 	{"Inbox", "e&", "Atp2Notifications"}, ¬
 	{"Inbox", "e&", "CI Beauty"}, ¬
