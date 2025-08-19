@@ -6,6 +6,7 @@ brew install --cask alt-tab
 brew install --cask telegram
 brew install --cask obsidian
 brew install --cask obs
+brew install --cask mitmproxy
 
 brew install git
 brew install nvm
