@@ -19,4 +19,8 @@ if [ -z "${output_file_name}" ]; then
   output_file_name="${output_file_name// /_}"
 fi
 
-ffmpeg -i "${input_file_name}" -vcodec libx264 -acodec aac "${output_file_name}"
+# ffmpeg -i "${input_file_name}" -vcodec libx264 -acodec aac "${output_file_name}"
+ffmpeg -i "${input_file_name}" -c:v libx264 -profile:v baseline -level 3.0 -pix_fmt yuv420p -preset slow -crf 23 \
+-c:a aac -b:a 128k -movflags +faststart "${output_file_name}"
+mv "${input_file_name}" ./converted
+
