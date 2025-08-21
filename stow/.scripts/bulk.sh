@@ -5,7 +5,7 @@ for d in */; do
         echo "$d"
         (
             cd "$d" || exit
-            git "${@}"
+            "${@}"
         )
         echo ""
     fi
