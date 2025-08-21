@@ -1,0 +1,5 @@
+ssl_insecure: true
+mode:
+- local
+scripts:
+- ~/d/mocks/override.py

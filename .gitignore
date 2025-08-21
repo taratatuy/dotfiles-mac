@@ -1,1 +1,3 @@
 stow/.config/karabiner/automatic_backups/
+stow/.mitmproxy/*
+!stow/.mitmproxy/config.yml
