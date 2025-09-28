@@ -21,6 +21,13 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- Useful for getting pretty icons, but requires a Nerd Font.
     { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+    {
+      "isak102/telescope-git-file-history.nvim",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "tpope/vim-fugitive",
+      },
+    },
   },
   config = function()
     -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -43,7 +50,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     -- do as well as how to actually do it!
 
     -- [[ Configure Telescope ]]
-    -- See `:help telescope` and `:help telescope.setup()`
+    local gfh_actions = require("telescope").extensions.git_file_history.actions -- See `:help telescope` and `:help telescope.setup()`
     require("telescope").setup({
       -- You can put your default mappings / updates / etc. in here
       --  All the info you're looking for is in `:help telescope.setup()`
@@ -55,6 +62,16 @@ return { -- Fuzzy Finder (files, lsp, etc)
       -- },
       -- pickers = {}
       defaults = {
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          "--auto-hybrid-regex",
+        },
         path_display = { "truncate" },
         layout_config = {
           width = { padding = 0 },
@@ -65,16 +82,38 @@ return { -- Fuzzy Finder (files, lsp, etc)
         ["ui-select"] = {
           require("telescope.themes").get_dropdown(),
         },
+        ["git_file_history"] = {
+          -- Keymaps inside the picker
+          mappings = {
+            i = {
+              ["<C-g>"] = gfh_actions.open_in_browser,
+            },
+            n = {
+              ["<C-g>"] = gfh_actions.open_in_browser,
+            },
+          },
+
+          -- The command to use for opening the browser (nil or string)
+          -- If nil, it will check if xdg-open, open, start, wslview are available, in that order.
+          browser_command = nil,
+        },
       },
     })
 
     -- Enable Telescope extensions if they are installed
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "ui-select")
+    pcall(require("telescope").load_extension, "git_file_history")
 
     -- See `:help telescope.builtin`
     local builtin = require("telescope.builtin")
-    vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
+    vim.keymap.set(
+      "n",
+      "<leader>sh",
+      require("telescope").extensions.git_file_history.git_file_history,
+      { desc = "[S]earch file git [h]istory" }
+    )
+    vim.keymap.set("n", "<leader>sH", builtin.help_tags, { desc = "[S]earch [H]elp" })
     vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
     vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
     vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
